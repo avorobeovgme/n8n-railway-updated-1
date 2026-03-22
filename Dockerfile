@@ -1,16 +1,17 @@
-FROM n8nio/n8n:latest
+FROM node:18-alpine
 
-# Установите системные зависимости для tdlib
-RUN apt-get update && apt-get install -y \
-    build-essential \
+# Устанавливаем build tools для компиляции native модулей
+RUN apk add --no-cache \
+    build-base \
     python3 \
-    libssl-dev \
-    libffi-dev \
-    && rm -rf /var/lib/apt/lists/*
+    openssl-dev \
+    libffi-dev
 
-# Установите пакет
+# Устанавливаем n8n
+RUN npm install -g n8n
+
+# Устанавливаем tdlib binaries
 RUN npm install -g @telepilotco/tdlib-binaries-prebuilt
 
-EXPOSE 5678
-
+# Запускаем n8n
 CMD ["n8n"]
