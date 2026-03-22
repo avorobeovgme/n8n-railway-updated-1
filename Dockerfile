@@ -1,17 +1,7 @@
-FROM node:18-alpine
+FROM n8nio/n8n:latest
 
-# Устанавливаем build tools для компиляции native модулей
-RUN apk add --no-cache \
-    build-base \
-    python3 \
-    openssl-dev \
-    libffi-dev
+USER root
 
-# Устанавливаем n8n
-RUN npm install -g n8n
-
-# Устанавливаем tdlib binaries
 RUN npm install -g @telepilotco/tdlib-binaries-prebuilt
 
-# Запускаем n8n
-CMD ["n8n"]
+USER node
